@@ -21,8 +21,6 @@ These are mostly guidelines, not rules. Use your best judgment, and feel free to
 ## <a id="prerequisites"></a>Prerequisites
 This project and everyone participating in it are governed by our [Code of Conduct](https://github.com/SchweizerischeBundesbahnen/.github/blob/main/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
-All contributors must have an active Polarion license. An active Polarion license means that the contributor has access to a valid Polarion license issued by Siemens, including but not limited to customer, partner, academic, trial, or demo Polarion license.
-
 ## <a id="asking-questions"></a>Asking questions
 Do not know how something in this project works? Curious if this project can achieve your desired functionality? Please ask questions in this project discussions [here](../../discussions)
 
