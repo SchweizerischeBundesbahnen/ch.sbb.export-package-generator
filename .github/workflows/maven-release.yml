@@ -20,25 +20,8 @@ jobs:
           gpg-private-key: ${{ secrets.COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_GPG_PRIVATE_KEY }}
       - uses: whelk-io/maven-settings-xml-action@9dc09b23833fa9aa7f27b63db287951856f3433d  # v22
         with:
-          repositories: >
-            [
-              {
-                "id": "s3",
-                "name": "s3.sbb.polarion.maven.repo",
-                "url": "s3://sbb-polarion-maven-repo/polarion.mvn",
-                "releases": {
-                  "enabled": "true",
-                  "updatePolicy": "never"
-                }
-              }
-            ]
           servers: >
             [
-              {
-                "id": "s3",
-                "username": "${{ secrets.S3_SBB_POLARION_MAVEN_REPO_RW_ACCESS_KEY }}",
-                "password": "${{ secrets.S3_SBB_POLARION_MAVEN_REPO_RW_SECRET_ACCESS_KEY }}"
-              },
               {
                 "id": "github",
                 "username": "${env.GITHUB_ACTOR}",
