@@ -1,6 +1,6 @@
 ---
 name: Feature request
-description: Request an enhancement for this Polarion extension
+description: Request an enhancement for this project
 labels: [enhancement]
 body:
   - type: markdown

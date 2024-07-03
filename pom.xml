@@ -2,24 +2,19 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>ch.sbb.polarion.extensions</groupId>
-        <artifactId>ch.sbb.polarion.extension.generic</artifactId>
-        <version>6.0.1</version>
-    </parent>
-
-    <artifactId>ch.sbb.polarion.extension.extension-name</artifactId>
-    <version>0.0.0-SNAPSHOT</version>
+    <groupId>ch.sbb</groupId>
+    <artifactId>export-package-generator</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>... extension of Polarion ALM</name>
-    <description>This is a Polarion extension which provides ...</description>
-    <url>https://github.com/SchweizerischeBundesbahnen/ch.sbb.polarion.extension.extension-name</url>
+    <name>Export-Package Generator</name>
+    <description>This project is used to find all exported packages and append them to the MANIFEST.MF file. It searches for sub-packages within the specified root packages and creates an "Export-Package" entry in the manifest file.</description>
+    <url>https://github.com/SchweizerischeBundesbahnen/ch.sbb.export-package-generator</url>
 
     <licenses>
         <license>
             <name>The SBB License, Version 1.0</name>
-            <url>https://github.com/SchweizerischeBundesbahnen/ch.sbb.polarion.extension.extension-name/blob/main/LICENSES/SBB.txt</url>
+            <url>https://github.com/SchweizerischeBundesbahnen/ch.sbb.export-package-generator/blob/main/LICENSES/SBB.txt</url>
         </license>
     </licenses>
 
@@ -33,62 +28,144 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/SchweizerischeBundesbahnen/ch.sbb.polarion.extension.extension-name.git</connection>
-        <developerConnection>scm:git:ssh://github.com/SchweizerischeBundesbahnen/ch.sbb.polarion.extension.extension-name.git</developerConnection>
-        <url>http://github.com/SchweizerischeBundesbahnen/ch.sbb.polarion.extension.extension-name/tree/main</url>
+        <connection>scm:git:git://github.com/SchweizerischeBundesbahnen/ch.sbb.export-package-generator.git</connection>
+        <developerConnection>scm:git:ssh://github.com/SchweizerischeBundesbahnen/ch.sbb.export-package-generator.git</developerConnection>
+        <url>http://github.com/SchweizerischeBundesbahnen/ch.sbb.export-package-generator/tree/main</url>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/SchweizerischeBundesbahnen/ch.sbb.polarion.extension.extension-name/issues</url>
+        <url>https://github.com/SchweizerischeBundesbahnen/ch.sbb.export-package-generator/issues</url>
     </issueManagement>
 
     <properties>
-        <maven-jar-plugin.Extension-Context>extension-name</maven-jar-plugin.Extension-Context>
-        <maven-jar-plugin.Automatic-Module-Name>ch.sbb.polarion.extension.extension_name</maven-jar-plugin.Automatic-Module-Name>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 
-        <web.app.name>${maven-jar-plugin.Extension-Context}</web.app.name>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
+        <guava.version>33.2.1-jre</guava.version>
+        <junit-jupiter-engine.version>5.10.3</junit-jupiter-engine.version>
+
+        <!-- Maven plugins -->
+        <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
+        <maven-javadoc-plugin.version>3.7.0</maven-javadoc-plugin.version>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-surefire-plugin.version>3.3.0</maven-surefire-plugin.version>
+
+        <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>ch.sbb.polarion.extensions</groupId>
-            <artifactId>ch.sbb.polarion.extension.generic.app</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter-engine.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>gpg-sign</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>nexus-staging</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven-clean-plugin.version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
         </plugins>
+
     </build>
 </project>
