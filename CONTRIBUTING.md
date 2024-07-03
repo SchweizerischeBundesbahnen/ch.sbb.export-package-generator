@@ -21,19 +21,16 @@ These are mostly guidelines, not rules. Use your best judgment, and feel free to
 ## <a id="prerequisites"></a>Prerequisites
 This project and everyone participating in it are governed by our [Code of Conduct](https://github.com/SchweizerischeBundesbahnen/.github/blob/main/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
-All contributors must have an active Polarion license. An active Polarion license means that the contributor has access to a valid Polarion license issued by Siemens, including but not limited to customer, partner, academic, trial, or demo Polarion license.
-
 ## <a id="asking-questions"></a>Asking questions
 Do not know how something in this project works? Curious if this project can achieve your desired functionality? Please ask questions in this project discussions [here](../../discussions)
 
 ## <a id="what-should-i-know-before-i-get-started"></a>What should I know before I get started?
 
 ### <a id="tools-and-packages"></a>Tools and Packages
-All extensions provided by SBB Polarion Team can be built, tested and packaged using Maven.
-It is only possible when the dependencies are extract from Polarion installer. The process must be performed by each contributor. Please consider to use https://github.com/SchweizerischeBundesbahnen/polarion-artifacts-deployer to extract the dependencies for your own Polarion installer version.
-
-### <a id="design-decisions"></a>Design Decisions
-The generic implementation for extensions provided by SBB Polarion Team is located in [ch.sbb.polarion.extension.generic](https://github.com/SchweizerischeBundesbahnen/ch.sbb.polarion.extension.generic)
+This project can be built, tested and packaged using Maven.
+```shell
+mvn clean package
+```
 
 ## <a id="how-can-i-contribute"></a>How Can I Contribute?
 
