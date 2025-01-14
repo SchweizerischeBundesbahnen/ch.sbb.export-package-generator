@@ -59,9 +59,9 @@
 
         <!-- Sonar and JaCoCo -->
         <jacoco.version>0.8.12</jacoco.version>
-        <sonar.projectKey>SchweizerischeBundesbahnen_${project.artifactId}</sonar.projectKey>
+        <sonar.projectKey>SchweizerischeBundesbahnen_${project.groupId}.${project.artifactId}</sonar.projectKey>
         <sonar.organization>schweizerischebundesbahnen</sonar.organization>
-        <sonar.projectName>${project.artifactId}</sonar.projectName>
+        <sonar.projectName>${project.groupId}.${project.artifactId}</sonar.projectName>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
