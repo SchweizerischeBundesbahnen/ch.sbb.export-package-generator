@@ -18,8 +18,6 @@ jobs:
       contents: read
       packages: read
     env:
-      S3_SBB_POLARION_MAVEN_REPO_RW_ACCESS_KEY: ${{ secrets.S3_SBB_POLARION_MAVEN_REPO_RW_ACCESS_KEY }}
-      S3_SBB_POLARION_MAVEN_REPO_RW_SECRET_ACCESS_KEY: ${{ secrets.S3_SBB_POLARION_MAVEN_REPO_RW_SECRET_ACCESS_KEY }}
       COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_USERNAME: ${{ secrets.COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_USERNAME }}
       COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_TOKEN: ${{ secrets.COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_TOKEN }}
       COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_GPG_PASSPHRASE: ${{ secrets.COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_GPG_PASSPHRASE }}
@@ -55,25 +53,8 @@ jobs:
       - name: 🔘 Generate settings.xml for Maven
         uses: whelk-io/maven-settings-xml-action@9dc09b23833fa9aa7f27b63db287951856f3433d  # v22
         with:
-          repositories: >
-            [
-              {
-                "id": "s3",
-                "name": "s3.sbb.polarion.maven.repo",
-                "url": "s3://sbb-polarion-maven-repo/polarion.mvn",
-                "releases": {
-                  "enabled": "true",
-                  "updatePolicy": "never"
-                }
-              }
-            ]
           servers: >
             [
-              {
-                "id": "s3",
-                "username": "${env.S3_SBB_POLARION_MAVEN_REPO_RW_ACCESS_KEY}",
-                "password": "${env.S3_SBB_POLARION_MAVEN_REPO_RW_SECRET_ACCESS_KEY}"
-              },
               {
                 "id": "github",
                 "username": "${env.GITHUB_ACTOR}",
@@ -126,8 +107,6 @@ jobs:
       packages: read
     if: ${{ !endsWith(needs.build.outputs.project_version, '-SNAPSHOT') && github.ref == 'refs/heads/main' }}
     env:
-      S3_SBB_POLARION_MAVEN_REPO_RW_ACCESS_KEY: ${{ secrets.S3_SBB_POLARION_MAVEN_REPO_RW_ACCESS_KEY }}
-      S3_SBB_POLARION_MAVEN_REPO_RW_SECRET_ACCESS_KEY: ${{ secrets.S3_SBB_POLARION_MAVEN_REPO_RW_SECRET_ACCESS_KEY }}
       COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_USERNAME: ${{ secrets.COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_USERNAME }}
       COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_TOKEN: ${{ secrets.COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_TOKEN }}
       COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_GPG_PASSPHRASE: ${{ secrets.COM_SONATYPE_CENTRAL_POLARION_OPENSOURCE_GPG_PASSPHRASE }}
@@ -147,7 +126,7 @@ jobs:
             /home/runner/work
           key: ${{ needs.build.outputs.cache_key }}
       - name: 📦 Deploy artifacts to Maven Central
-        run: mvn --batch-mode -Dmaven.test.skip=true deploy -P gpg-sign -P nexus-staging -Dnexus-staging-maven-plugin.autoReleaseAfterClose=false
+        run: mvn --batch-mode -Dmaven.test.skip=true deploy -P gpg-sign -P nexus-staging
 
   # Deploy releases and snapshots for main branch to GitHub Packages
   deploy-github-packages:
@@ -158,8 +137,6 @@ jobs:
       contents: write
       packages: write
     env:
-      S3_SBB_POLARION_MAVEN_REPO_RW_ACCESS_KEY: ${{ secrets.S3_SBB_POLARION_MAVEN_REPO_RW_ACCESS_KEY }}
-      S3_SBB_POLARION_MAVEN_REPO_RW_SECRET_ACCESS_KEY: ${{ secrets.S3_SBB_POLARION_MAVEN_REPO_RW_SECRET_ACCESS_KEY }}
       GITHUB_TOKEN: ${{ github.token }}
     steps:
       - name: 🧱 Set up JDK and Maven
