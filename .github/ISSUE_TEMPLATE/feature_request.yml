@@ -1,6 +1,6 @@
 ---
 name: Feature request
-description: Request an enhancement for this project
+description: Request an enhancement for this maven plugin
 labels: [enhancement]
 body:
   - type: markdown
