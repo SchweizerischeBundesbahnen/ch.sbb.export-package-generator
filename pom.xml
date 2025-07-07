@@ -46,12 +46,12 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <guava.version>33.4.8-jre</guava.version>
-        <junit-jupiter-engine.version>5.13.2</junit-jupiter-engine.version>
+        <junit-jupiter-engine.version>5.13.3</junit-jupiter-engine.version>
 
         <!-- Maven plugins -->
         <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-        <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+        <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
