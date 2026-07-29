@@ -17,13 +17,13 @@ class PackageFinderTest {
     void findAllExportedPackages() throws IOException {
         Set<String> allExportedPackages = PackageFinder.findAllExportedPackages(ROOT_PACKAGES);
 
-        assertEquals(25, allExportedPackages.size());
+        assertEquals(27, allExportedPackages.size());
     }
 
     @Test
     void findSubPackages() throws IOException {
         Set<String> subPackages1 = PackageFinder.findSubPackages(ORG_JUNIT_JUPITER_API);
-        assertEquals(7, subPackages1.size());
+        assertEquals(9, subPackages1.size());
 
         Set<String> subPackages2 = PackageFinder.findSubPackages(COM_GOOGLE_COMMON);
         assertEquals(18, subPackages2.size());
