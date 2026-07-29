@@ -191,6 +191,15 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
             </plugin>
+            <!-- Declared so `mvn sonar:sonar` resolves from the project at a pinned version. Left to
+                 prefix resolution it reached org.codehaus.mojo:sonar-maven-plugin - a relocation stub
+                 for this very artifact, unversioned - which needs a Central metadata lookup and fails
+                 the build with "No plugin found for prefix 'sonar'" whenever that is unavailable. -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </plugin>
         </plugins>
 
     </build>
